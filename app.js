@@ -10,7 +10,7 @@ let habits = JSON.parse(localStorage.getItem("habits")) || [];
 let points = parseInt(localStorage.getItem("points")) || 0;
 let isPro = JSON.parse(localStorage.getItem("isPro")) || false;
 
-// ---- NEW renderHabits function ----
+// Render habits
 function renderHabits() {
   habitList.innerHTML = "";
   habits.forEach((habit, index) => {
@@ -26,12 +26,10 @@ function renderHabits() {
   });
 
   pointsDisplay.textContent = `Points: ${points}`;
-
-  // Hide upgrade button if already Pro
   upgradeBtn.style.display = isPro ? "none" : "block";
 }
 
-// Function to toggle habit done
+// Toggle habit completion
 function toggleHabit(index) {
   habits[index].done = !habits[index].done;
   points += habits[index].done ? 1 : -1;
@@ -39,13 +37,13 @@ function toggleHabit(index) {
   renderHabits();
 }
 
-// Function to add a new habit
+// Add habit
 function addHabit() {
   const name = habitInput.value.trim();
   if (name === "") return;
 
   if (!isPro && habits.length >= 5) {
-    alert("Free users can only add 5 habits. Upgrade to Pro for unlimited habits!");
+    alert("Free users can only add 5 habits.");
     return;
   }
 
@@ -55,22 +53,21 @@ function addHabit() {
   renderHabits();
 }
 
-// Function to save data to localStorage
+// Save to localStorage
 function saveHabits() {
   localStorage.setItem("habits", JSON.stringify(habits));
   localStorage.setItem("points", points);
   localStorage.setItem("isPro", isPro);
 }
 
-// Upgrade button
+// Enable Pro mode
 upgradeBtn.addEventListener("click", () => {
-  alert("Thank you! You are now Pro!");
+  alert("Pro mode enabled!");
   isPro = true;
   saveHabits();
   renderHabits();
 });
 
-// Add habit button
 addHabitBtn.addEventListener("click", addHabit);
 
 // Initial render
